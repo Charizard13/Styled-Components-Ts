@@ -2,13 +2,16 @@ import React from "react";
 import styled from 'styled-components'
 import Monthly from "./Monthly"
 
-interface Months {
-  date: number;
-};
-
 interface Month {
-  expenses: number, income: number;
+  expenses: number, income: number, date: number;
 }
+
+interface  props{
+  allYear: Month[],
+  size: number
+}
+
+
 
 const ColumnTable = styled.div`
  background-color: white;
@@ -24,57 +27,53 @@ const X = styled.div`
  background-color: white;
  width: 5%;
  display: flex;
- height: 90%; 
+ height: 100%; 
  align-self: center;
  flex-direction: column;
  align-self: space-around;
  justify-content: space-between;
  align-self: flex-end;
+ padding-bottom: 12px;
 `;
 
 const Money = styled.div`
  background-color: white;
  width: 100%;
  display: flex;
- height: 50px; 
+ flex-direction: column;
+ height: 10%; 
  align-self: flex-end;
+align-content: flex-end;
+justify-content: flex-end;
+font-size:10px;
+white-space: nowrap;
 
 `;
 
-const Month: React.FC<Month> = () => {
-  return (
 
+const Month: React.FC<props> = ({allYear,size}) => {
+  const max: number= Math.max(...allYear.map((month) => {
+     return Math.max(month.expenses,month.income)}))
+     console.log(allYear)
+  return (
     <ColumnTable >
-      <Monthly income={800} max={1000} expenses={300} month={1}></Monthly>
-      <Monthly income={800} max={1000} expenses={350} month={2}></Monthly>
-      <Monthly income={900} max={1000} expenses={290} month={3}></Monthly>
-      <Monthly income={800} max={1000} expenses={325} month={4}></Monthly>
-      <Monthly income={800} max={1000} expenses={500} month={5}></Monthly>
-      <Monthly income={800} max={1000} expenses={490} month={6}></Monthly>
-      <Monthly income={580} max={1000} expenses={500} month={7}></Monthly>
-      <Monthly income={780} max={1000} expenses={400} month={8}></Monthly>
-      <Monthly income={800} max={1000} expenses={435} month={9}></Monthly>
-      <Monthly income={800} max={1000} expenses={252} month={10}></Monthly>
-      <Monthly income={800} max={1000} expenses={300} month={11}></Monthly>
-      <Monthly income={800} max={1000} expenses={300} month={12}></Monthly>
+    {allYear.map((month) => (
+       <Monthly expenses={month.expenses} income={month.income} month={month.date} max={max} size={size}></Monthly>
+    ))}
+
       <X>
-        <Money> - 15000</Money>
-        <Money> - 14000</Money>
-        <Money> - 13000</Money>
-        <Money> - 12000</Money>
-        <Money> - 11000</Money>
-        <Money> - 10000</Money>
-        <Money> - 9000</Money>
-        <Money> - 8000</Money>
-        <Money> - 7000</Money>
-        <Money> - 6000</Money>
-        <Money> - 5000</Money>
-        <Money> - 4000</Money>
-        <Money> - 3000</Money>
-        <Money> - 2000</Money>
-        <Money> - 1000</Money>
+        <Money> - {10* max/8}</Money>
+        <Money> - {9 * max/8}</Money>
+        <Money> - {8 * max/8}</Money>
+        <Money> - {7 * max/8}</Money>
+        <Money> - {6 * max/8}</Money>
+        <Money> - {5 * max/8}</Money>
+        <Money> - {4 * max/8}</Money>
+        <Money> - {3* max/8}</Money>
+        <Money> - {2 * max/8}</Money>
+        <Money> - {max/8}</Money>
+        <Money> - 0</Money>
       </X>
-      
     </ColumnTable>
   );
 }
